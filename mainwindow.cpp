@@ -25,36 +25,42 @@ int count_digit(long long number) {
 
 void MainWindow::on_pushButton_clicked()
 {
-    long int card;
+    long long card;
        card = ui->lineEdit->text().toLongLong();
        int digit = count_digit(card);
+    if (digit>=13 && digit<=19){
 
-       int a=0,b=0,count =1;
-       for(int i =digit;i>0;i--)
-       {
-           if (count%2!= 0)
-           {
-               if((card%10*2)%10!=0 || card%10*2==10){
-                   int temp=card%10*2;
-                   for (int i =0;i<2;i++){
-                       a+=temp%10;
-                       temp =temp/10;
-                   }
-               }else{
+        int a=0,b=0,count =1;
+        for(int i =digit;i>0;i--)
+        {
+            if (count%2== 0)
+            {
+                if((card%10*2)%10!=0 || card%10*2==10){
+                    int temp=card%10*2;
+                    for (int i =0;i<2;i++){
+                        a+=temp%10;
+                        temp =temp/10;
+                    }
+                }else{
 
-                   a +=card%10*2;
-               }
+                    a +=card%10*2;
+                }
 
-           }else{
-               b+=card%10;
+            }else{
+                b+=card%10;
 
-           }
-           count++;
-       }
-       if((a +b)%10==0){
-           ui->label_4->setText("Valid");
-       }else{
-           ui->label_4->setText("Invalid");
-       }
+            }
+            count++;
+            card=card/10;
+        }
+        if((a +b)%10==0){
+            ui->label_4->setText("Valid");
+        }else{
+            ui->label_4->setText("Invalid");
+        }
+    }else{
+        ui->label_4->setText("Invalid Input");
+    }
+    ui->label_6->setNum(digit);
 }
 
