@@ -27,6 +27,7 @@ void MainWindow::on_pushButton_clicked()
 {
     long long card;
        card = ui->lineEdit->text().toLongLong();
+       long long temp2 = card;
        int digit = count_digit(card);
     if (digit>=13 && digit<=19){
 
@@ -36,10 +37,10 @@ void MainWindow::on_pushButton_clicked()
             if (count%2== 0)
             {
                 if((card%10*2)%10!=0 || card%10*2==10){
-                    int temp=card%10*2;
+                    int temp1=card%10*2;
                     for (int i =0;i<2;i++){
-                        a+=temp%10;
-                        temp =temp/10;
+                        a+=temp1%10;
+                        temp1 =temp1/10;
                     }
                 }else{
 
@@ -62,5 +63,35 @@ void MainWindow::on_pushButton_clicked()
         ui->label_4->setText("Invalid Input");
     }
     ui->label_6->setNum(digit);
+
+ while(temp2>10)
+ {
+     temp2 = temp2/10;
+ }
+ switch(temp2)
+ {
+        case 4:
+         ui->label_8->setText("Visa");
+         break;
+
+         case 2:
+         ui->label_8->setText("Master");
+         break;
+
+         case 5:
+         ui->label_8->setText("Master");
+         break;
+
+         case 3:
+         ui->label_8->setText("American");
+         break;
+
+         case 6:
+         ui->label_8->setText("Discover");
+         break;
+
+         default:
+         ui->label_8->setText("Not Supported");
+ }
 }
 
