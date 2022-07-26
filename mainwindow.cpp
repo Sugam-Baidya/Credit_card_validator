@@ -1,11 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "secdialog.h"
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +28,8 @@ int count_digit(long long number) {
    return count;
 }
 
+QString card_type;
+QString validity;
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -55,43 +63,79 @@ void MainWindow::on_pushButton_clicked()
             card=card/10;
         }
         if((a +b)%10==0){
+
             ui->label_4->setText("Valid");
+            validity = "Valid";
+
+            while(temp2>10)
+            {
+                temp2 = temp2/10;
+            }
+            switch(temp2)
+            {
+                   case 4:
+                    ui->label_8->setText("Visa");
+                    card_type = "Visa";
+                    break;
+
+                    case 2:
+                    ui->label_8->setText("Master");
+                    card_type = "Master";
+                    break;
+
+                    case 5:
+                    ui->label_8->setText("Master");
+                    card_type = "Master";
+                    break;
+
+                    case 3:
+                    ui->label_8->setText("American");
+                    card_type = "American";
+                    break;
+
+                    case 6:
+                    ui->label_8->setText("Discover");
+                    card_type = "Discover";
+                    break;
+
+                    default:
+                    ui->label_8->setText("Not Supported");
+                    card_type = "    -    ";
+            }
         }else{
             ui->label_4->setText("Invalid");
+            validity = "Invalid";
         }
+        QFile file1("History.txt");
+       if(!file1.open(QFile::ReadWrite | QFile::Text))
+       {
+            QMessageBox::warning(this,"Warning","File not found");
+       }
+       QTextStream in1(&file1);
+       QTextStream out1(&file1);
+       QString text1 = in1.readAll();
+       QString text2 = ui->lineEdit->text();
+       out1<<"Card_Number\t\t"<<text2 <<"\t\t"<<validity<<"\t\t"<<card_type<<"\n";
+
+       file1.flush();
+       file1.close();
     }else{
         ui->label_4->setText("Invalid Input");
     }
     ui->label_6->setNum(digit);
 
- while(temp2>10)
- {
-     temp2 = temp2/10;
- }
- switch(temp2)
- {
-        case 4:
-         ui->label_8->setText("Visa");
-         break;
 
-         case 2:
-         ui->label_8->setText("Master");
-         break;
 
-         case 5:
-         ui->label_8->setText("Master");
-         break;
 
-         case 3:
-         ui->label_8->setText("American");
-         break;
 
-         case 6:
-         ui->label_8->setText("Discover");
-         break;
+}
 
-         default:
-         ui->label_8->setText("Not Supported");
- }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    SecDialog secdialog;
+    secdialog.setModal(true);
+    secdialog.exec();
+
 }
 
