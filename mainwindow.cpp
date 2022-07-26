@@ -100,11 +100,12 @@ void MainWindow::on_pushButton_clicked()
 
                     default:
                     ui->label_8->setText("Not Supported");
-                    card_type = "    -    ";
+                    card_type = "Not _ Found";
             }
         }else{
             ui->label_4->setText("Invalid");
             validity = "Invalid";
+            card_type = "- - - - -";
         }
         QFile file1("History.txt");
        if(!file1.open(QFile::ReadWrite | QFile::Text))
@@ -137,5 +138,11 @@ void MainWindow::on_pushButton_2_clicked()
     secdialog.setModal(true);
     secdialog.exec();
 
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QMessageBox::about(this,"About","This is a project");
 }
 
