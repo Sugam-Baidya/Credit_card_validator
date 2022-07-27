@@ -12,20 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QString time = QTime::currentTime().toString();
-    QFile file1("History.txt");
-   if(!file1.open(QFile::ReadWrite | QFile::Text))
-   {
-        QMessageBox::warning(this,"Warning","File not found");
-   }
-   QTextStream in1(&file1);
-   QTextStream out1(&file1);
-   QString text1 = in1.readAll();
-   QString text2 = ui->lineEdit->text();
-   out1<<"\n\n"<<time<<"\n\n";
 
-   file1.flush();
-   file1.close();
 
 }
 
@@ -48,7 +35,22 @@ QString validity;
 
 void MainWindow::on_pushButton_clicked()
 {
+    if(SN==1){
+        QString time = QTime::currentTime().toString();
+        QFile file1("History.txt");
+       if(!file1.open(QFile::ReadWrite | QFile::Text))
+       {
+            QMessageBox::warning(this,"Warning","File not found");
+       }
+       QTextStream in1(&file1);
+       QTextStream out1(&file1);
+       QString text1 = in1.readAll();
+       QString text2 = ui->lineEdit->text();
+       out1<<"\n\n"<<time<<"\n\n";
 
+       file1.flush();
+       file1.close();
+    }
     long long card;
        card = ui->lineEdit->text().toLongLong();
        long long temp2 = card;
@@ -162,5 +164,13 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_3_clicked()
 {
     QMessageBox::about(this,"About","This is a project");
+}
+
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QFile file1("History.txt");
+    file1.remove();
+    SN=1;
 }
 
