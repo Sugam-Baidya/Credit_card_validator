@@ -101,6 +101,7 @@ void MainWindow::on_pushButton_clicked()
                     default:
                     ui->label_8->setText("Not Supported");
                     card_type = "Not _ Found";
+                    break;
             }
         }else{
             ui->label_4->setText("Invalid");
@@ -122,6 +123,7 @@ void MainWindow::on_pushButton_clicked()
        file1.close();
     }else{
         ui->label_4->setText("Invalid Input");
+        ui->label_8->setText("Not Found");
     }
     ui->label_6->setNum(digit);
 
