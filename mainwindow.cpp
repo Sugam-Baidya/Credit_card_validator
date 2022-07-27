@@ -5,12 +5,27 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QString time = QTime::currentTime().toString();
+    QFile file1("History.txt");
+   if(!file1.open(QFile::ReadWrite | QFile::Text))
+   {
+        QMessageBox::warning(this,"Warning","File not found");
+   }
+   QTextStream in1(&file1);
+   QTextStream out1(&file1);
+   QString text1 = in1.readAll();
+   QString text2 = ui->lineEdit->text();
+   out1<<"\n\n"<<time<<"\n\n";
+
+   file1.flush();
+   file1.close();
 
 }
 
@@ -27,12 +42,13 @@ int count_digit(long long number) {
    }
    return count;
 }
-
+int SN=1;
 QString card_type;
 QString validity;
 
 void MainWindow::on_pushButton_clicked()
 {
+
     long long card;
        card = ui->lineEdit->text().toLongLong();
        long long temp2 = card;
@@ -117,13 +133,13 @@ void MainWindow::on_pushButton_clicked()
        QTextStream out1(&file1);
        QString text1 = in1.readAll();
        QString text2 = ui->lineEdit->text();
-       out1<<"Card_Number\t\t"<<text2 <<"\t\t"<<validity<<"\t\t"<<card_type<<"\n";
-
+       out1<<SN<<"\t\t"<<text2 <<"\t\t"<<validity<<"\t\t"<<card_type<<"\n";
+       SN++;
        file1.flush();
        file1.close();
     }else{
         ui->label_4->setText("Invalid Input");
-        ui->label_8->setText("Not Found");
+        ui->label_8->setText("Not Supported");
     }
     ui->label_6->setNum(digit);
 
